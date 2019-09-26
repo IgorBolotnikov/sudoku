@@ -74,20 +74,16 @@ def timer(func):
 		time2 = round(time(), 4)
 		msg = 'Solved with {0} algorythm in {1} m, {2} s.'.format(
 			func.__name__.title(),
-			round((time2-time1)//60),
-			round(((time2-time1) - (time2-time1)//60*60)))
+			round((time2 - time1) // 60),
+			round(((time2 - time1) - (time2 - time1) // 60 * 60)))
 		tkinter.messagebox.showinfo('Message', msg)
 	return wrapper
 
 
 class Sudoku():
-
-	# permitted input for sudoku cells
-	DIGITS = ('1','2','3','4','5','6','7','8','9')
-
-	def __init__(self, size=3):
+	def __init__(self, grid_size=3):
 		self.cells = []
-		self.size = size if size >= 3 else 3
+		self.grid_size = grid_size if grid_size >= 3 else 3
 
 		def close_the_window():
 		    if tkinter.messagebox.askokcancel(
@@ -197,8 +193,11 @@ class Sudoku():
 		# create a list of digits extracted from Entry fields
 		grid = []
 		for cell in self.cells:
-			grid.append(int(cell.get())) if \
-				cell.get() in self.DIGITS else grid.append(0)
+			cell =  cell.get()
+			if cell.isdigit() and 1 <= int(cell) <= 9:
+				grid.append(int(cell))
+			else:
+				grid.append(0)
 		return grid
 
 	@staticmethod
